@@ -1,22 +1,12 @@
 # Active Record Validations
 
-Active Record can validate our models for us before they even touch the database.
-This means it's harder to end up with bad data, which can cause problems later
-even if our code is technically bug-free.
-
-We can use `Active Record::Base` helper methods like `#validates` to set things
-up.
-
-## Objectives
+## Learning Goals
 
 After this lesson, you should be able to:
 
+- Explain the purpose of validation
 - Identify when validation occurs in the lifespan of an object
-- Introspect on the `Active Record::Errors` collection object
-  - use `#valid?`
-  - use `#errors`
-- Generate `full_message`s for errors
-- Check an attribute for validation errors
+- Use built-in validation methods
 - Add custom validation errors
 
 ## Context: Databases and Data Validity
@@ -29,6 +19,13 @@ their data doesn't look right.
 
 In general, **validations** are any code that perform the job of protecting the
 database from invalid data.
+
+Active Record can validate our models for us before they even touch the database.
+This means it's harder to end up with bad data, which can cause problems later
+even if our code is technically bug-free.
+
+We can use `Active Record::Base` helper methods like `#validates` to set things
+up.
 
 ### Active Record Validations vs Database Constraints
 
@@ -254,61 +251,27 @@ class Person < Active Record::Base
 end
 ```
 
-### Custom Validators
+### Custom Validations
 
-There are three ways to implement custom validators, with examples in [Section
-6][active record custom validators] of the Rails Guide.
+There are two ways to implement custom validations, with examples in [Section
+6][active record custom validations] of the Rails Guide.
 
-Of the three, `#validate` is the simplest. If your validation needs become more
-complex, consult the documentation. For _most_ validations, though, the
-following method should be good enough.
-
-1. Create a new directory in `app` called `validators`. Because most Rails
-   developers don't need to write custom validation, this directory is **not**
-   created by default like `models` or `controllers`.
-2. Identify the Active Record attribute you want to validate. Is it the `email`
-   or the `last_name` on the `Person` class, for example?
-3. Create a new file in the `app/validators` directory of the form attribute
-   (from the previous step) + `_validator.rb`. So in the case of validating an
-   attribute called `email`, create a file `app/validators/email_validator.rb`
-4. Inside the new file, define the class. The class name should match the file
-   name of the file, but "Camel-Cased." So `email_validator` should be class
-   `EmailValidator`. The class should inherit from `ActiveModel::Validator`
-5. The validator class must have one instance method, `#validate`. This method
-   will receive one argument typically called `record`.
-6. Inside of `#validate`, you'll be able to get properties from `record` and
-   determine **_whether it is invalid_**. If the record is **invalid**, push (`<<`)
-   to `record.errors[:attribute]` e.g. `record.errors[:email]` a `String` which
-   is a message that you want to display that describes why the message is not
-   valid.
-7. Lastly, in the implementation of the class being validated e.g. `Person`,
-   add:
-   1. An `include` of ActiveModel::Validations
-   2. The helper call: `validates_with (className)`. In our example we'd put, `validates_with EmailValidator` (see step 4, above)
-
-The result of these steps should be the following:
+Of the two, adding custom methods is the simplest. Here's an example of creating
+a custom validation method to check the validity of an email address:
 
 ```ruby
-class EmailValidator < ActiveModel::Validator
-  def validate(record)
-    unless record.email.match?(/flatironschool.com/)
-      record.errors[:email] << "We're only allowed to have people who work for the company in the database!"
+class Person
+  validate :must_have_flatiron_email
+
+  def must_have_flatiron_email
+    unless email.match?(/flatironschool.com/)
+      errors.add(:email, "We're only allowed to have people who work for the company in the database!")
     end
   end
 end
 ```
 
-```ruby
-class Person
-  include ActiveModel::Validations
-  validates_with EmailValidator
-end
-```
-
-Here we validate that all email addresses are in the `flatironschool.com`
-domain.
-
-[active record custom validators]: http://guides.rubyonrails.org/active_record_validations.html#performing-custom-validations
+[active record custom validations]: http://guides.rubyonrails.org/active_record_validations.html#performing-custom-validations
 
 ## Conclusion
 
