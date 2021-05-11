@@ -24,7 +24,7 @@ Active Record can validate our models for us before they even touch the database
 This means it's harder to end up with bad data, which can cause problems later
 even if our code is technically bug-free.
 
-We can use `Active Record::Base` helper methods like `#validates` to set things
+We can use `ActiveRecord::Base` helper methods like `#validates` to set things
 up.
 
 ### Active Record Validations vs Database Constraints
