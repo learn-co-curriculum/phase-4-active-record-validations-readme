@@ -17,8 +17,8 @@ In the context of Rails, **validations** are special method calls that go at the
 of model class definitions and prevent them from being saved to the database if
 their data doesn't look right.
 
-In general, **validations** are any code that perform the job of protecting the
-database from invalid data.
+In general, **validations** consist of code that performs the job of protecting
+the database from invalid data.
 
 Active Record can validate our models for us before they even touch the database.
 This means it's harder to end up with bad data, which can cause problems later
@@ -30,9 +30,10 @@ up.
 ### Active Record Validations vs Database Constraints
 
 Many relational databases, such as SQLite and PostgreSQL, have data validation
-features that check things like length and data type. These validations are
-typically added via migrations, and depending on the specific validation, they
-may or may not be reflected in the `schema.rb` file.
+features that check things like length and data type. While Active Record
+validations are added in the model files, these validations are typically added
+via migrations; depending on the specific validation, they may or may not be
+reflected in the `schema.rb` file.
 
 Database constraints and model validations are also functionally different.
 Database constraints will ALWAYS be checked when adding or updating data in the
@@ -40,9 +41,9 @@ database, while Active Record validations will only be checked when adding or
 updating data through Ruby/Rails (e.g. if we use SQL code in the command line to
 modify the database, Active Record validations are not run).
 
-Some developers use database constraints and Active Record validations, while
-others rely on Active Record validations alone. Ultimately, it depends on how
-the developer plans to add and update data in the database. In this lesson,
+Some developers use both database constraints and Active Record validations,
+while others rely on Active Record validations alone. Ultimately, it depends on
+how the developer plans to add and update data in the database. In this lesson,
 we'll be focusing on Active Record validations.
 
 ### What is "invalid data"?
@@ -270,6 +271,9 @@ class Person
   end
 end
 ```
+
+Note that here, we are calling the `#validate` method, rather than `#validates`,
+and passing it a method we write ourselves to perform our custom validation.
 
 [active record custom validations]: http://guides.rubyonrails.org/active_record_validations.html#performing-custom-validations
 
