@@ -194,6 +194,35 @@ end
 Since we're sending these errors in the response, we can then use the errors
 object on the frontend to display these errors to our users.
 
+We can also get an array of nicely-formatted errors with the `.full_messages`
+method:
+
+```rb
+def create
+  person = Person.create(person_params)
+  if person.valid?
+    render json: person, status: :created
+  else
+    render json: { errors: person.errors.full_messages }, status: :unprocessable_entity
+  end
+end
+```
+
+Also, if you're a fan of using `rescue` for control flow instead of `if/else`,
+you can use the `ActiveRecord::RecordInvalid` exception class along with
+`create!` or `update!`:
+
+```rb
+def create
+  person = Person.create!(person_params)
+  render json: person, status: :created
+rescue ActiveRecord::RecordInvalid => invalid
+  render json: { errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
+end
+```
+
+We'll cover error handling in controllers in more detail the next lesson.
+
 ## Other Built-in Validators
 
 Rails has a host of built-in helpers.
