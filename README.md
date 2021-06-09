@@ -221,7 +221,7 @@ rescue ActiveRecord::RecordInvalid => invalid
 end
 ```
 
-We'll cover error handling in controllers in more detail the next lesson.
+We'll cover error handling in controllers in more detail in the next lesson.
 
 ## Other Built-in Validators
 
