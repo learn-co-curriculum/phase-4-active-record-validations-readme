@@ -319,7 +319,7 @@ Before you move on, make sure you can answer the following questions:
 
 1. When would you use the `validates` method vs. the `validate` method? What
    argument(s) get passed to each of them?
-2. What are the two ways to trigger validation?
+2. What are two ways to trigger validation?
 3. How can you get Active Record to return an Exception when validation fails?
 
 ## Resources
