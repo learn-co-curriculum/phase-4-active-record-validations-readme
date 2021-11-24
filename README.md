@@ -119,12 +119,11 @@ DB, like `#save`.
 The only way to trigger validation without touching the database is to call the
 `#valid?` method.
 
-For a full list of methods that trigger validation, see
-[Section 4][active record callbacks] of the Rails Guide for Active Record
-Callbacks. Don't worry about the rest of the information in that guide just yet;
-we'll go into callbacks later!
+For a full list of methods that trigger validation, see [Section
+1.2][active-record-validations] of the Rails Guide for Active Record
+Validations.
 
-[active record callbacks]: http://guides.rubyonrails.org/active_record_callbacks.html#running-callbacks
+[active-record-validations]: https://guides.rubyonrails.org/active_record_validations.html#when-does-validation-happen-questionmark
 
 ## Validation Failure
 
